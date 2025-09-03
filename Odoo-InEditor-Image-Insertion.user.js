@@ -2,7 +2,7 @@
 // @name            Odoo In-Editor Image Insertion
 // @name:tr         Odoo Editör İçi Görsel Ekleme
 // @namespace       https://github.com/sipsak
-// @version         1.0
+// @version         1.1
 // @description     Allows you to insert the selected product’s image from the list that appears after typing "//" in Odoo editors.
 // @description:tr  Odoo'daki editörlerde "//" ifadesini yazdıktan sonra açılan listeden seçilen ürünün görselini eklemenizi sağlar.
 // @author          Burak Şipşak
@@ -146,9 +146,9 @@
                 const reInsensitive = new RegExp(pattern, 'i');
                 const reGlobal = new RegExp(pattern, 'gi');
                 if (reInsensitive.test(nameHtml)) {
-                    listItem.innerHTML = nameHtml.replace(reGlobal, (m) => `<strong>${m}</strong>`);
+                    listItem.innerHTML = nameHtml.replace(reGlobal, (m) => `<b class="text-primary">${m}</b>`);
                 } else if (reInsensitive.test(codeHtml)) {
-                    listItem.innerHTML = `${nameHtml} <span style="opacity:.8">(${codeHtml.replace(reGlobal, (m)=>`<strong>${m}</strong>`)})</span>`;
+                    listItem.innerHTML = `${nameHtml} <span style="opacity:.8">(${codeHtml.replace(reGlobal, (m)=>`<b class="text-primary">${m}</b>`)})</span>`;
                 } else {
                     listItem.textContent = urun.name;
                 }
@@ -232,7 +232,7 @@
         const queryRaw = (queryText || '').trim();
         const qLower = queryRaw.toLowerCase();
         const filtered = queryRaw
-            ? urunListesi.filter(u => ((u.name && u.name.toLowerCase().includes(qLower)) || (u.code && u.code.includes(queryRaw))))
+            ? urunListesi.filter(u => (u.name && u.name.toLowerCase().includes(qLower)))
             : urunListesi.slice();
         addListItems(listDiv, filtered, queryRaw);
     }
@@ -352,7 +352,7 @@
         if (!document.getElementById('note-item-list-style')) {
             const style = document.createElement('style');
             style.id = 'note-item-list-style';
-            style.textContent = `#note-item-list .dropdown-item{color:#374151 !important;}`;
+            style.textContent = `#note-item-list .dropdown-item { color: inherit !important; }`;
             document.head.appendChild(style);
         }
 
@@ -370,7 +370,7 @@
 
         const initialQueryTrimmed = (initialQuery || '').trim();
         const initial = initialQueryTrimmed
-            ? urunListesi.filter(u => ((u.name && u.name.toLowerCase().includes(initialQueryTrimmed.toLowerCase())) || (u.code && u.code.includes(initialQueryTrimmed))))
+            ? urunListesi.filter(u => (u.name && u.name.toLowerCase().includes(initialQueryTrimmed.toLowerCase())))
             : urunListesi.slice();
         addListItems(listDiv, initial, initialQueryTrimmed);
 
