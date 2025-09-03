@@ -2,7 +2,7 @@
 // @name            Odoo In-Editor Image Insertion
 // @name:tr         Odoo Editör İçi Görsel Ekleme
 // @namespace       https://github.com/sipsak
-// @version         1.1
+// @version         1.2
 // @description     Allows you to insert the selected product’s image from the list that appears after typing "//" in Odoo editors.
 // @description:tr  Odoo'daki editörlerde "//" ifadesini yazdıktan sonra açılan listeden seçilen ürünün görselini eklemenizi sağlar.
 // @author          Burak Şipşak
@@ -102,7 +102,7 @@
         { code: "2000264", name: "ALM. PROFİL / SLOT DİFÜZÖR DIŞ KASA (2775/55700-EL)" },
         { code: "2000268", name: "ALM. PROFİL / SLOT DİFÜZÖR KANAT (545/55699)" },
         { code: "2000269", name: "ALM. PROFİL / SLOT DİFÜZÖR KANAT (545/55699-AN)" },
-        { code: "2000266", name: "ALM. PROFİL / SLOT DİFÜZÖR İÇ KASA (2774/55712)" },
+        { code: "2000266", name: "ALM. PROFİL / SLOT DİFİZÖR İÇ KASA (2774/55712)" },
         { code: "2000267", name: "ALM. PROFİL / SLOT DİFİZÖR İÇ KASA (2774/55712-EL)" },
         { code: "2000271", name: "ALM. PROFİL / SWIRL DİFÜZÖR ORTA ÇITASI (25027)" },
         { code: "2000273", name: "ALM. PROFİL / TSK YUVARLAK (55821)" },
@@ -114,6 +114,7 @@
 
     let currentItems = [];
     let currentFocusIndex = -1;
+    let selectionChangeAttached = false;
 
     function escapeHtml(str) {
         return (str + '').replace(/[&<>"']/g, function(s) {
@@ -237,17 +238,109 @@
         addListItems(listDiv, filtered, queryRaw);
     }
 
+    function getBlockAncestor(node, editor) {
+        if (!node) return null;
+        let el = node.nodeType === 3 ? node.parentElement : node;
+        while (el && el !== editor && el.nodeType === 1) {
+            const tag = el.tagName && el.tagName.toLowerCase();
+            if (tag === 'p' || tag === 'div' || tag === 'td' || tag === 'th' || tag === 'li' || tag === 'blockquote' || tag === 'section' || tag === 'article') {
+                return el;
+            }
+            el = el.parentElement;
+        }
+        return editor;
+    }
+
+    function getPreviousTextNode(node) {
+        if (!node) return null;
+        let cur = node;
+        if (cur.previousSibling) {
+            cur = cur.previousSibling;
+            while (cur && cur.lastChild) cur = cur.lastChild;
+            while (cur && cur.nodeType !== 3) {
+                if (cur.previousSibling) {
+                    cur = cur.previousSibling;
+                    while (cur && cur.lastChild) cur = cur.lastChild;
+                } else {
+                    cur = cur.parentNode;
+                }
+            }
+            return cur && cur.nodeType === 3 ? cur : null;
+        } else {
+            let parent = node.parentNode;
+            while (parent && parent !== document) {
+                if (parent.previousSibling) {
+                    let cur2 = parent.previousSibling;
+                    while (cur2 && cur2.lastChild) cur2 = cur2.lastChild;
+                    while (cur2 && cur2.nodeType !== 3) {
+                        if (cur2.previousSibling) {
+                            cur2 = cur2.previousSibling;
+                            while (cur2 && cur2.lastChild) cur2 = cur2.lastChild;
+                        } else {
+                            cur2 = cur2.parentNode;
+                        }
+                    }
+                    return cur2 && cur2.nodeType === 3 ? cur2 : null;
+                }
+                parent = parent.parentNode;
+            }
+            return null;
+        }
+    }
+
+    function collectPrecedingTextWithinBlock(range, maxChars = 500) {
+        const editor = document.querySelector('.odoo-editor-editable');
+        if (!editor || !range) return '';
+        const startNode = range.startContainer;
+        const startOffset = range.startOffset;
+
+        const block = getBlockAncestor(startNode, editor);
+        if (!block) return '';
+
+        let collected = '';
+        if (startNode.nodeType === 3) {
+            collected = startNode.textContent.slice(0, startOffset) + collected;
+        } else {
+            const childIndex = Math.max(0, startOffset - 1);
+            const child = startNode.childNodes[childIndex];
+            if (child) {
+                let cur = child;
+                while (cur && cur.lastChild) cur = cur.lastChild;
+                if (cur && cur.nodeType === 3) collected = cur.textContent + collected;
+            }
+        }
+
+        let walkerNode = (startNode.nodeType === 3) ? startNode : (startNode.childNodes[startOffset - 1] || null);
+        if (!walkerNode || walkerNode.nodeType !== 3) {
+            if (startNode.nodeType === 3) walkerNode = startNode;
+            else walkerNode = getPreviousTextNode(startNode);
+        } else {
+            walkerNode = getPreviousTextNode(walkerNode);
+        }
+
+        while (walkerNode && collected.length < maxChars) {
+            const walkerBlock = getBlockAncestor(walkerNode, editor);
+            if (walkerBlock !== block) break;
+            collected = walkerNode.textContent + collected;
+            walkerNode = getPreviousTextNode(walkerNode);
+        }
+
+        if (collected.length > maxChars) {
+            collected = collected.slice(collected.length - maxChars);
+        }
+        return collected;
+    }
+
     function getQueryFromSelection(range) {
         const editor = document.querySelector('.odoo-editor-editable');
         if (!editor || !range) return null;
         try {
-            const temp = document.createRange();
-            temp.setStart(editor, 0);
-            temp.setEnd(range.startContainer, range.startOffset);
-            const preceding = temp.toString();
-            const idx = preceding.lastIndexOf('//');
-            if (idx === -1) return null;
-            return preceding.substring(idx + 2);
+            if (!range.collapsed) return null;
+            const preceding = collectPrecedingTextWithinBlock(range, 500);
+            if (!preceding) return null;
+            const m = preceding.match(/\/\/([^\s]*)$/);
+            if (!m) return null;
+            return m[1];
         } catch (e) {
             return null;
         }
@@ -322,26 +415,65 @@
         closeListIfAny();
     }
 
+    function getRectForRange(range) {
+        if (!range) return null;
+        try {
+            const rect = range.getBoundingClientRect();
+            if (rect && (rect.width || rect.height || rect.top || rect.left)) {
+                return rect;
+            }
+        } catch (e) {}
+
+        try {
+            const sel = window.getSelection();
+            const savedRanges = [];
+            if (sel) {
+                for (let i = 0; i < sel.rangeCount; i++) savedRanges.push(sel.getRangeAt(i).cloneRange());
+            }
+
+            const dummy = document.createElement('span');
+            dummy.textContent = '\u200b';
+            dummy.style.fontSize = '0px';
+            dummy.style.lineHeight = '0';
+            range.insertNode(dummy);
+
+            const rect2 = dummy.getBoundingClientRect();
+            const parent = dummy.parentNode;
+            if (parent) parent.removeChild(dummy);
+
+            if (sel) {
+                sel.removeAllRanges();
+                for (const r of savedRanges) {
+                    try { sel.addRange(r); } catch (e) { }
+                }
+            }
+
+            return rect2;
+        } catch (e) {
+            return null;
+        }
+    }
+
     function createList(positionRect, noteElement, initialQuery) {
         closeListIfAny();
 
-        const parentContainer = noteElement.closest('.o_field_html') || document.body;
         const listDiv = document.createElement('div');
         listDiv.id = 'note-item-list';
         listDiv.setAttribute('role', 'menu');
         listDiv.classList.add('o-dropdown--menu', 'dropdown-menu', 'd-block');
 
-        if (parentContainer !== document.body) {
-            const parentRect = parentContainer.getBoundingClientRect();
-            const topPos = (positionRect.bottom - parentRect.top) + 5;
-            const leftPos = (positionRect.left - parentRect.left);
-            listDiv.style.position = 'absolute';
+        listDiv.style.position = 'absolute';
+        const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
+        const scrollX = window.scrollX || window.pageXOffset || document.documentElement.scrollLeft || 0;
+
+        if (positionRect) {
+            const topPos = Math.round(positionRect.bottom + scrollY + 5);
+            const leftPos = Math.round(positionRect.left + scrollX);
             listDiv.style.top = `${topPos}px`;
             listDiv.style.left = `${leftPos}px`;
         } else {
-            listDiv.style.position = 'fixed';
-            listDiv.style.top = `${positionRect.bottom + 5}px`;
-            listDiv.style.left = `${positionRect.left}px`;
+            listDiv.style.top = `${50 + scrollY}px`;
+            listDiv.style.left = `${50 + scrollX}px`;
         }
 
         listDiv.style.maxHeight = '256px';
@@ -356,11 +488,11 @@
             document.head.appendChild(style);
         }
 
-        parentContainer.appendChild(listDiv);
+        document.body.appendChild(listDiv);
 
         setTimeout(() => {
             function onDocClick(ev) {
-                if (!listDiv.contains(ev.target) && !noteElement.contains(ev.target)) {
+                if (!listDiv.contains(ev.target) && (!noteElement || !noteElement.contains(ev.target))) {
                     closeListIfAny();
                     document.removeEventListener('click', onDocClick);
                 }
@@ -389,16 +521,47 @@
             return;
         }
         const range = sel.getRangeAt(0);
+
+        if (!range.collapsed) {
+            closeListIfAny();
+            return;
+        }
+
         const query = getQueryFromSelection(range);
         if (query !== null) {
-            const rect = range.getBoundingClientRect();
+            const rect = getRectForRange(range);
+            if (!rect) {
+                closeListIfAny();
+                return;
+            }
             let listDiv = document.getElementById('note-item-list');
             if (!listDiv) {
                 listDiv = createList(rect, noteElement, query);
+            } else {
+                const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
+                const scrollX = window.scrollX || window.pageXOffset || document.documentElement.scrollLeft || 0;
+                listDiv.style.top = `${Math.round(rect.bottom + scrollY + 5)}px`;
+                listDiv.style.left = `${Math.round(rect.left + scrollX)}px`;
             }
             filterAndRenderList(query);
         } else {
             closeListIfAny();
+        }
+    }
+
+    function getActiveEditorFromSelection() {
+        const sel = window.getSelection();
+        if (!sel || !sel.anchorNode) return null;
+        let node = sel.anchorNode.nodeType === Node.TEXT_NODE ? sel.anchorNode.parentNode : sel.anchorNode;
+        if (!node) return null;
+        if (node.closest) {
+            return node.closest('.odoo-editor-editable');
+        } else {
+            while (node && node !== document.body) {
+                if (node.classList && node.classList.contains && node.classList.contains('odoo-editor-editable')) return node;
+                node = node.parentNode;
+            }
+            return null;
         }
     }
 
@@ -422,6 +585,18 @@
                 handleKeyNavigation(event);
             }
         }, true);
+
+        if (!selectionChangeAttached) {
+            selectionChangeAttached = true;
+            document.addEventListener('selectionchange', () => {
+                const activeEditor = getActiveEditorFromSelection();
+                if (activeEditor && activeEditor.dataset.scriptInitialized) {
+                    setTimeout(() => updateListFromSelection(activeEditor), 0);
+                } else {
+                    closeListIfAny();
+                }
+            });
+        }
     }
 
     const observer = new MutationObserver(() => {
