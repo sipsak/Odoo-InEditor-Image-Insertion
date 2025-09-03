@@ -2,7 +2,7 @@
 // @name            Odoo In-Editor Image Insertion
 // @name:tr         Odoo Editör İçi Görsel Ekleme
 // @namespace       https://github.com/sipsak
-// @version         1.3
+// @version         1.2
 // @description     Allows you to insert the selected product’s image from the list that appears after typing "//" in Odoo editors.
 // @description:tr  Odoo'daki editörlerde "//" ifadesini yazdıktan sonra açılan listeden seçilen ürünün görselini eklemenizi sağlar.
 // @author          Burak Şipşak
@@ -684,3 +684,4 @@
     if (initialEditor) initScriptForEditor(initialEditor);
 
 })();
+
