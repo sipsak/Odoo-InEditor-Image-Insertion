@@ -2,7 +2,7 @@
 // @name            Odoo In-Editor Image Insertion
 // @name:tr         Odoo Editör İçi Görsel Ekleme
 // @namespace       https://github.com/sipsak
-// @version         1.2
+// @version         1.3
 // @description     Allows you to insert the selected product’s image from the list that appears after typing "//" in Odoo editors.
 // @description:tr  Odoo'daki editörlerde "//" ifadesini yazdıktan sonra açılan listeden seçilen ürünün görselini eklemenizi sağlar.
 // @author          Burak Şipşak
@@ -115,6 +115,13 @@
     let currentItems = [];
     let currentFocusIndex = -1;
     let selectionChangeAttached = false;
+
+    // --- Yeni: listeyi caret ile birlikte hareket ettirmek için kullanılan değişkenler ---
+    let currentTriggerRange = null;
+    let repositionAttached = false;
+    let repositionRaf = null;
+    let lastPosition = { top: null, left: null };
+    // -----------------------------------------------------------------------------
 
     function escapeHtml(str) {
         return (str + '').replace(/[&<>"']/g, function(s) {
@@ -454,7 +461,65 @@
         }
     }
 
-    function createList(positionRect, noteElement, initialQuery) {
+    // --- Yeni: listeyi caret ile birlikte hareket ettiren fonksiyonlar ---
+    function repositionList() {
+        const listDiv = document.getElementById('note-item-list');
+        if (!listDiv) {
+            lastPosition.top = lastPosition.left = null;
+            return;
+        }
+        if (!currentTriggerRange) return;
+        const rect = getRectForRange(currentTriggerRange);
+        if (!rect) {
+            closeListIfAny();
+            return;
+        }
+        // position: fixed kullanıyoruz => viewport'a göre rect değerlerini direkt kullanabiliriz
+        const topPos = Math.round(rect.bottom + 5);
+        const leftPos = Math.round(rect.left);
+        if (String(listDiv.style.top) !== `${topPos}px` || String(listDiv.style.left) !== `${leftPos}px`) {
+            listDiv.style.top = `${topPos}px`;
+            listDiv.style.left = `${leftPos}px`;
+        }
+    }
+
+    function rAFLoop() {
+        if (!repositionAttached) return;
+        if (repositionRaf) return;
+        repositionRaf = requestAnimationFrame(() => {
+            repositionRaf = null;
+            try { repositionList(); } catch (e) { /* ignore */ }
+            // devam ettir
+            if (repositionAttached) rAFLoop();
+        });
+    }
+
+    function startRepositioning() {
+        if (repositionAttached) return;
+        repositionAttached = true;
+        rAFLoop();
+        window.addEventListener('resize', onWindowResize);
+    }
+
+    function stopRepositioning() {
+        repositionAttached = false;
+        if (repositionRaf) { cancelAnimationFrame(repositionRaf); repositionRaf = null; }
+        window.removeEventListener('resize', onWindowResize);
+        lastPosition.top = lastPosition.left = null;
+        currentTriggerRange = null;
+    }
+
+    function onWindowResize() {
+        if (!repositionAttached) return;
+        if (repositionRaf) return;
+        repositionRaf = requestAnimationFrame(() => {
+            repositionRaf = null;
+            repositionList();
+        });
+    }
+    // -----------------------------------------------------------------
+
+    function createList(positionRect, noteElement, initialQuery, triggerRange) {
         closeListIfAny();
 
         const listDiv = document.createElement('div');
@@ -462,18 +527,16 @@
         listDiv.setAttribute('role', 'menu');
         listDiv.classList.add('o-dropdown--menu', 'dropdown-menu', 'd-block');
 
-        listDiv.style.position = 'absolute';
-        const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
-        const scrollX = window.scrollX || window.pageXOffset || document.documentElement.scrollLeft || 0;
-
+        // artık fixed konumlandırma (viewport'a göre) kullanıyoruz
+        listDiv.style.position = 'fixed';
         if (positionRect) {
-            const topPos = Math.round(positionRect.bottom + scrollY + 5);
-            const leftPos = Math.round(positionRect.left + scrollX);
+            const topPos = Math.round(positionRect.bottom + 5);
+            const leftPos = Math.round(positionRect.left);
             listDiv.style.top = `${topPos}px`;
             listDiv.style.left = `${leftPos}px`;
         } else {
-            listDiv.style.top = `${50 + scrollY}px`;
-            listDiv.style.left = `${50 + scrollX}px`;
+            listDiv.style.top = `50px`;
+            listDiv.style.left = `50px`;
         }
 
         listDiv.style.maxHeight = '256px';
@@ -506,12 +569,19 @@
             : urunListesi.slice();
         addListItems(listDiv, initial, initialQueryTrimmed);
 
+        // caret'in (seçim) pozisyonunu sakla ve pozisyon güncellemesini başlat
+        if (triggerRange) {
+            try { currentTriggerRange = triggerRange.cloneRange ? triggerRange.cloneRange() : triggerRange; } catch(e){ currentTriggerRange = triggerRange; }
+            startRepositioning();
+        }
+
         return listDiv;
     }
 
     function closeListIfAny() {
         const existing = document.getElementById('note-item-list');
         if (existing) existing.remove();
+        stopRepositioning();
     }
 
     function updateListFromSelection(noteElement) {
@@ -536,12 +606,16 @@
             }
             let listDiv = document.getElementById('note-item-list');
             if (!listDiv) {
-                listDiv = createList(rect, noteElement, query);
+                // create and pass the current range so we can keep track and reposition on scroll
+                listDiv = createList(rect, noteElement, query, range.cloneRange ? range.cloneRange() : range);
             } else {
-                const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
-                const scrollX = window.scrollX || window.pageXOffset || document.documentElement.scrollLeft || 0;
-                listDiv.style.top = `${Math.round(rect.bottom + scrollY + 5)}px`;
-                listDiv.style.left = `${Math.round(rect.left + scrollX)}px`;
+                // liste zaten açıksa caret range'ini güncelle ve pozisyonu hemen ayarla
+                try { currentTriggerRange = range.cloneRange ? range.cloneRange() : range; } catch(e){ currentTriggerRange = range; }
+                // fixed pozisyon kullandığımız için scroll offset eklemiyoruz; sadece bounding rect kullanıyoruz
+                const topPos = Math.round(rect.bottom + 5);
+                const leftPos = Math.round(rect.left);
+                listDiv.style.top = `${topPos}px`;
+                listDiv.style.left = `${leftPos}px`;
             }
             filterAndRenderList(query);
         } else {
