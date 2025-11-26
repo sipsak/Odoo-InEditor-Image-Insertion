@@ -2,15 +2,14 @@
 // @name            Odoo In-Editor Image Insertion
 // @name:tr         Odoo Editör İçi Görsel Ekleme
 // @namespace       https://github.com/sipsak
-// @version         1.2
+// @version         1.3
 // @description     Allows you to insert the selected product’s image from the list that appears after typing "//" in Odoo editors.
 // @description:tr  Odoo'daki editörlerde "//" ifadesini yazdıktan sonra açılan listeden seçilen ürünün görselini eklemenizi sağlar.
 // @author          Burak Şipşak
-// @match           https://portal.bskhvac.com.tr/*
-// @match           https://*.odoo.com/*
+// @match           *://*/*
 // @grant           none
 // @run-at          document-idle
-// @icon            data:image/png;base64,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
+// @icon            data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNNDQuNTIxIDUuNWE0LjQ3NyA0LjQ3NyAwIDAgMSAwIDYuMzMybC0zNC4xOSAzNC4xOUg0VjM5LjY5TDM4LjE5IDUuNWE0LjQ3NyA0LjQ3NyAwIDAgMSA2LjMzMSAwWiIgZmlsbD0iIzJFQkNGQSIvPjxwYXRoIGQ9Ik0xMC45IDE1LjEyMiA0Ljg5OCA5LjEyYTkuMDA0IDkuMDA0IDAgMCAwIDEwLjQ4IDEyLjU2OGwyMy4wMDEgMjNhNC40NzcgNC40NzcgMCAwIDAgNi4zMzEtNi4zM2wtMjMtMjMuMDAxQTkuMDA0IDkuMDA0IDAgMCAwIDkuMTQxIDQuODc3bDYuMDAyIDYuMDAyLTQuMjQzIDQuMjQzWiIgZmlsbD0iIzk4NTE4NCIvPjxwYXRoIGQ9Ik0yNS4wMjMgMTguNjcgMTguNjkgMjVsNi4zMzIgNi4zMzFMMzEuMzUyIDI1bC02LjMzLTYuMzMxWiIgZmlsbD0iIzE0NDQ5NiIvPjwvc3ZnPgo=
 // @updateURL       https://raw.githubusercontent.com/sipsak/Odoo-InEditor-Image-Insertion/main/Odoo-InEditor-Image-Insertion.user.js
 // @downloadURL     https://raw.githubusercontent.com/sipsak/Odoo-InEditor-Image-Insertion/main/Odoo-InEditor-Image-Insertion.user.js
 // ==/UserScript==
@@ -18,670 +17,370 @@
 (function() {
     'use strict';
 
-    const urunListesi = [
-        { code: "2000277", name: "ALM. PROFİL / 100LÜK HAVADAMPERKANADI (55034/9617)" },
-        { code: "2000141", name: "ALM. PROFİL / 11,5 YER KONVEKTÖRÜ KASA (55806-AN)" },
-        { code: "2000142", name: "ALM. PROFİL / 125 LİK HAVA DAMPER KANADI (55628)" },
-        { code: "2000144", name: "ALM. PROFİL / 150 LİK HAVA DAMPER KANADI (M5980)" },
-        { code: "2000145", name: "ALM. PROFİL / 17mm LİNEER KASA (55843)" },
-        { code: "2000139", name: "ALM. PROFİL / 20mm YER LİNEER KANAT (4300/55728/10526)" },
-        { code: "2000138", name: "ALM. PROFİL / 20mm YER LİNEER KANAT (4300/55728/10526-EL)" },
-        { code: "2000152", name: "ALM. PROFİL / 22mm LM KASASI (55776/5477)" },
-        { code: "2000153", name: "ALM. PROFİL / 22mm LM KASASI (55776/5477-EL)" },
-        { code: "2000154", name: "ALM. PROFİL / 22mm ÇSK MENFEZ KASASI (55733)" },
-        { code: "2000161", name: "ALM. PROFİL / 28 KARE PETEK MENFEZ KASASI (55802)" },
-        { code: "2000164", name: "ALM. PROFİL / 28mm LM KASASI (55803)" },
-        { code: "2000165", name: "ALM. PROFİL / 28mm LM KASASI (55803-EL)" },
-        { code: "2000140", name: "ALM. PROFİL / 28mm TSK MENFEZ KASASI (4201/55791)" },
-        { code: "2000166", name: "ALM. PROFİL / 28mm TSK MENFEZ KASASI (4201/55791-EL)" },
-        { code: "2000162", name: "ALM. PROFİL / 28mm ÇSK MENFEZ KASA (4419/55826)" },
-        { code: "2000163", name: "ALM. PROFİL / 28mm ÇSK MENFEZ KASA (4419/55826-EL)" },
-        { code: "2000167", name: "ALM. PROFİL / 30mm YER LİNEER KANAT (4299/55729)" },
-        { code: "2000168", name: "ALM. PROFİL / 30mm YER LİNEER KANAT (4299/55729-EL)" },
-        { code: "2000169", name: "ALM. PROFİL / 30mm YER LİNEER KASA (4297/55727)" },
-        { code: "2000170", name: "ALM. PROFİL / 30mm YER LİNEER KASA (4297/55727-EL)" },
-        { code: "2000176", name: "ALM. PROFİL / 32 LİNEER MENFEZ KASASI (2777/55715)" },
-        { code: "2000177", name: "ALM. PROFİL / 32 LİNEER MENFEZ KASASI (2777/55715-EL)" },
-        { code: "2000179", name: "ALM. PROFİL / 32mm KARE PETEK MENEZ KASASI (55755)" },
-        { code: "2000279", name: "ALM. PROFİL / 32mm TEKSIRA KANATLI MENFEZ (2778/55704)" },
-        { code: "2000180", name: "ALM. PROFİL / 32mm TEKSIRA KANATLI MENFEZ (2778/55704-EL)" },
-        { code: "2000182", name: "ALM. PROFİL / 32mm TEKTIRNAK KPM CUP-İN KASA (55842)" },
-        { code: "2000175", name: "ALM. PROFİL / 32mm ÇİFT SIRA KANATLI MENFEZ (2779/55707)" },
-        { code: "2000178", name: "ALM. PROFİL / 32mm ÇİFT SIRA KANATLI MENFEZ (2779/55707-EL)" },
-        { code: "2000181", name: "ALM. PROFİL / 32mm ÇIFTTIRNAK KPM CUP-İN KASA (55703)" },
-        { code: "2000184", name: "ALM. PROFİL / 40mm YER LİNEER KASA (4298/55726)" },
-        { code: "2004525", name: "ALM. PROFİL / 40mm YER LİNEER KASA (4298/55726-EL)" },
-        { code: "2000280", name: "ALM. PROFİL / 45GENİŞKASA PANJUR KANADI (563/55694)" },
-        { code: "2000281", name: "ALM. PROFİL / 45GENİŞKASA PANJURKANADI (563/55694-EL)" },
-        { code: "2000194", name: "ALM. PROFİL / 8,5 YER KONVEKTÖRÜ KASA (55807-AN)" },
-        { code: "2000201", name: "ALM. PROFİL / DRUM DİFÜZÖR DIŞ KASASI (55656)" },
-        { code: "2000206", name: "ALM. PROFİL / EĞRİSEL PANJUR KANADI (580/55775)" },
-        { code: "2000207", name: "ALM. PROFİL / EĞRİSEL PANJUR KANADI (580/55775-EL)" },
-        { code: "2000209", name: "ALM. PROFİL / GENİŞ KANAT PANJUR KASASI (55708)" },
-        { code: "2000210", name: "ALM. PROFİL / GENİŞ KANAT PANJUR KASASI (55708-EL)" },
-        { code: "2000213", name: "ALM. PROFİL / HAVA APAREY KANADI (15-3577)" },
-        { code: "2000285", name: "ALM. PROFİL / HAVA DAMPER VİDA YUV.KASA (540/55080)" },
-        { code: "2000214", name: "ALM. PROFİL / HAVA DAMPERİ DÜZ KASA (539/21012/9226)" },
-        { code: "2000215", name: "ALM. PROFİL / HEPA FİLTRE KASA (55739)" },
-        { code: "2000218", name: "ALM. PROFİL / KAPI T. MENFEZ KANADI (55438)" },
-        { code: "2000219", name: "ALM. PROFİL / KAPI T. MENFEZ KANADI (55438-EL)" },
-        { code: "2000220", name: "ALM. PROFİL / KARE PETEK VİDA YUVALI KASA (55756)" },
-        { code: "2000221", name: "ALM. PROFİL / KARE PETEK VİDA YUVALI KASA (55756-EL)" },
-        { code: "2000225", name: "ALM. PROFİL / KTA CUP-İN KASA (4036/55713)" },
-        { code: "2000226", name: "ALM. PROFİL / KTA DIŞ KASA (2776/55725)" },
-        { code: "2000229", name: "ALM. PROFİL / KTA İÇ KASA (4200/55732)" },
-        { code: "2000230", name: "ALM. PROFİL / KTM KASASI (55808)" },
-        { code: "2000231", name: "ALM. PROFİL / KTM KASASI (55808-EL)" },
-        { code: "2000222", name: "ALM. PROFİL / KÖR KASALI KTA KASASI (55500)" },
-        { code: "2000235", name: "ALM. PROFİL / LM MÜDAHALE KAPAĞI VİDA YUVALI (55812)" },
-        { code: "2000236", name: "ALM. PROFİL / LM1 KANADI (2955/55695)" },
-        { code: "2000237", name: "ALM. PROFİL / LM1 KANADI (2955/55695-EL)" },
-        { code: "2000238", name: "ALM. PROFİL / LM3 KANADI (55338)" },
-        { code: "2000239", name: "ALM. PROFİL / LM3 KANADI (55338-EL)" },
-        { code: "2000240", name: "ALM. PROFİL / MAKARALI SLOT ARA PARÇASI (55529)" },
-        { code: "2000242", name: "ALM. PROFİL / MAKARALI SLOT DIŞ KASASI (55762)" },
-        { code: "2000243", name: "ALM. PROFİL / MAKARALI SLOT İÇ KASASI (55761)" },
-        { code: "2000286", name: "ALM. PROFİL / PARALEL KANAT DAMPER KANADI (510/55811/9119)" },
-        { code: "2000287", name: "ALM. PROFİL / PARALEL KANAT DAMPER KASASI (548/55709/9177)" },
-        { code: "2000292", name: "ALM. PROFİL / PARALELKANAT DAMPERKANADI (510/55811-EL)" },
-        { code: "2000246", name: "ALM. PROFİL / Q4*14,27 MENFEZ KANADI (512/55001/9174)" },
-        { code: "2000247", name: "ALM. PROFİL / Q4*14,27 MENFEZ KANADI (512/55001/9174-EL)" },
-        { code: "2000248", name: "ALM. PROFİL / Q6*Q7,7 ANEMOSTAD BORUSU (35014)" },
-        { code: "2000249", name: "ALM. PROFİL / Q7*Q5 LİNEER BORUSU (35027)" },
-        { code: "2000251", name: "ALM. PROFİL / Q8*10 LİNEER DIŞ BORUSU (35028/1726-AN)" },
-        { code: "2000250", name: "ALM. PROFİL / Q8*10 LİNEER DIŞ KASASI (35028/1726-EL)" },
-        { code: "2000253", name: "ALM. PROFİL / SARKMA KTA DIŞ KASASI (55716)" },
-        { code: "2000288", name: "ALM. PROFİL / SIZDIRMAZ H. DAMPERİ DÜZKASA (55885)" },
-        { code: "2000293", name: "ALM. PROFİL / SIZDIRMAZ H.DAMP.VİDAYUV.KASA (55884)" },
-        { code: "2000256", name: "ALM. PROFİL / SIZDIRMAZ H.DAMPERİ ARAKAYIT (55886)" },
-        { code: "2000258", name: "ALM. PROFİL / SLOT DAMPER DIŞ KASA (2773/55710)" },
-        { code: "2000259", name: "ALM. PROFİL / SLOT DAMPER DIŞ KASA (2773/55710-AN)" },
-        { code: "2000260", name: "ALM. PROFİL / SLOT DAMPER İÇ KASA (2900/55711)" },
-        { code: "2000261", name: "ALM. PROFİL / SLOT DİFÜZÖR BAŞLIĞI (55795)" },
-        { code: "2000263", name: "ALM. PROFİL / SLOT DİFÜZÖR DIŞ KASA (2775/55700)" },
-        { code: "2000264", name: "ALM. PROFİL / SLOT DİFÜZÖR DIŞ KASA (2775/55700-EL)" },
-        { code: "2000268", name: "ALM. PROFİL / SLOT DİFÜZÖR KANAT (545/55699)" },
-        { code: "2000269", name: "ALM. PROFİL / SLOT DİFÜZÖR KANAT (545/55699-AN)" },
-        { code: "2000266", name: "ALM. PROFİL / SLOT DİFİZÖR İÇ KASA (2774/55712)" },
-        { code: "2000267", name: "ALM. PROFİL / SLOT DİFİZÖR İÇ KASA (2774/55712-EL)" },
-        { code: "2000271", name: "ALM. PROFİL / SWIRL DİFÜZÖR ORTA ÇITASI (25027)" },
-        { code: "2000273", name: "ALM. PROFİL / TSK YUVARLAK (55821)" },
-        { code: "2000274", name: "ALM. PROFİL / YER KONVEK. LİNEER DIŞ KASA (55805-EL)" },
-        { code: "2000275", name: "ALM. PROFİL / ZIT KANAT DAMPER KANADI (55751)" },
-        { code: "2000276", name: "ALM. PROFİL / ZIT KANAT DAMPER KASASI (55752)" },
-        { code: "2000200", name: "ALM. PROFİL / ÇSK YUVARLAK (55820)" }
-    ];
+    function init() {
+        const scriptTag = document.getElementById('web.layout.odooscript');
+        if (!scriptTag) {
+            return;
+        }
 
-    let currentItems = [];
-    let currentFocusIndex = -1;
-    let selectionChangeAttached = false;
+        const ODOO_CONFIG = {
+            url: window.location.origin,
+            csrf_token: null,
+            context: {},
+            products: []
+        };
 
-    // --- Yeni: listeyi caret ile birlikte hareket ettirmek için kullanılan değişkenler ---
-    let currentTriggerRange = null;
-    let repositionAttached = false;
-    let repositionRaf = null;
-    let lastPosition = { top: null, left: null };
-    // -----------------------------------------------------------------------------
+        let currentItems = [];
+        let currentFocusIndex = -1;
+        let selectionChangeAttached = false;
+        let currentTriggerRange = null;
+        let repositionAttached = false;
+        let repositionRaf = null;
+        let lastPosition = { top: null, left: null };
 
-    function escapeHtml(str) {
-        return (str + '').replace(/[&<>"']/g, function(s) {
-            return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]);
-        });
-    }
+        function extractCsrfToken() {
+            const scriptTag = document.getElementById('web.layout.odooscript');
+            if (scriptTag) {
+                const m = scriptTag.textContent.match(/csrf_token:\s*"([^"]+)"/);
+                return m ? m[1] : null;
+            }
+            return null;
+        }
 
-    function escapeRegExp(s){ return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+        async function fetchProducts() {
+            if (!ODOO_CONFIG.csrf_token) ODOO_CONFIG.csrf_token = extractCsrfToken();
 
-    function addListItems(listElement, itemsToRender, query) {
-        listElement.innerHTML = '';
-        const q = (query || '').toString().trim();
-        currentItems = itemsToRender.slice();
-        currentFocusIndex = -1;
+            try {
+                const domain = [['categ_id.id', 'in', [56, 57]], ['image_1920', '!=', false]];
+                const turkceContext = { ...ODOO_CONFIG.context, lang: 'tr_TR' };
 
-        itemsToRender.forEach((urun, idx) => {
-            const listItem = document.createElement('a');
-            listItem.dataset.code = urun.code;
-            listItem.dataset.index = idx;
-            listItem.classList.add('dropdown-item');
-            listItem.setAttribute('role', 'menuitem');
-            listItem.setAttribute('tabindex', '-1');
-            listItem.href = 'javascript:void(0)';
+                const response = await fetch(`${ODOO_CONFIG.url}/web/dataset/call_kw`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': ODOO_CONFIG.csrf_token },
+                    body: JSON.stringify({
+                        jsonrpc: '2.0',
+                        method: 'call',
+                        params: {
+                            model: 'product.template',
+                            method: 'search_read',
+                            args: [],
+                            kwargs: {
+                                domain: domain,
+                                fields: ['id', 'display_name', 'default_code'],
+                                context: turkceContext
+                            }
+                        },
+                        id: Math.random()
+                    })
+                });
+                const data = await response.json();
+                if (data.result) {
+                    ODOO_CONFIG.products = data.result.map(p => ({
+                        id: p.id,
+                        name: p.display_name,
+                        code: p.default_code || ''
+                    }));
+                }
+            } catch (e) {}
+        }
 
-            const nameHtml = escapeHtml(urun.name || '');
-            const codeHtml = escapeHtml(urun.code || '');
+        function escapeHtml(str) {
+            return (str + '').replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
+        }
 
-            if (q) {
-                const pattern = escapeRegExp(q);
-                const reInsensitive = new RegExp(pattern, 'i');
-                const reGlobal = new RegExp(pattern, 'gi');
-                if (reInsensitive.test(nameHtml)) {
-                    listItem.innerHTML = nameHtml.replace(reGlobal, (m) => `<b class="text-primary">${m}</b>`);
-                } else if (reInsensitive.test(codeHtml)) {
-                    listItem.innerHTML = `${nameHtml} <span style="opacity:.8">(${codeHtml.replace(reGlobal, (m)=>`<b class="text-primary">${m}</b>`)})</span>`;
+        function escapeRegExp(s){ return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+        function addListItems(listElement, itemsToRender, query) {
+            listElement.innerHTML = '';
+            const q = (query || '').toString().trim();
+            currentItems = itemsToRender.slice();
+            currentFocusIndex = -1;
+
+            itemsToRender.forEach((urun, idx) => {
+                const listItem = document.createElement('a');
+                listItem.dataset.index = idx;
+                listItem.classList.add('dropdown-item');
+                listItem.setAttribute('role', 'menuitem');
+                listItem.href = 'javascript:void(0)';
+
+                const nameHtml = escapeHtml(urun.name || '');
+                const codeHtml = escapeHtml(urun.code || '');
+
+                if (q) {
+                    const pattern = escapeRegExp(q);
+                    const reGlobal = new RegExp(pattern, 'gi');
+                    if (new RegExp(pattern, 'i').test(nameHtml)) {
+                        listItem.innerHTML = nameHtml.replace(reGlobal, m => `<b class="text-primary">${m}</b>`);
+                    } else {
+                        listItem.innerHTML = `${nameHtml} <span style="opacity:.8">(${codeHtml.replace(reGlobal, m=>`<b class="text-primary">${m}</b>`)})</span>`;
+                    }
                 } else {
                     listItem.textContent = urun.name;
                 }
-            } else {
-                listItem.textContent = urun.name;
-            }
 
-            listItem.addEventListener('mouseenter', () => {
-                removeAllFocus();
-                listItem.classList.add('focus');
-                currentFocusIndex = idx;
+                listItem.addEventListener('mouseenter', () => {
+                    removeAllFocus();
+                    listItem.classList.add('focus');
+                    currentFocusIndex = idx;
+                });
+
+                listItem.addEventListener('click', (ev) => {
+                    ev.preventDefault();
+                    ev.stopPropagation();
+                    insertImage(urun);
+                });
+
+                listElement.appendChild(listItem);
             });
+            updateFocusVisual();
+        }
 
-            listItem.addEventListener('click', (ev) => {
-                ev.preventDefault();
-                ev.stopPropagation();
-                insertImage(urun);
+        function removeAllFocus() {
+            document.querySelectorAll('#note-item-list .dropdown-item').forEach(item => {
+                item.classList.remove('focus');
+                item.setAttribute('aria-selected', 'false');
             });
-
-            listElement.appendChild(listItem);
-        });
-        updateFocusVisual();
-    }
-
-    function removeAllFocus() {
-        const items = document.querySelectorAll('#note-item-list .dropdown-item');
-        items.forEach(item => {
-            item.classList.remove('focus');
-            item.setAttribute('aria-selected', 'false');
-        });
-    }
-
-    function updateFocusVisual() {
-        const listDiv = document.getElementById('note-item-list');
-        if (!listDiv) return;
-        const items = Array.from(listDiv.querySelectorAll('.dropdown-item'));
-        items.forEach((it, i) => {
-            if (i === currentFocusIndex) {
-                it.classList.add('focus');
-                it.setAttribute('aria-selected', 'true');
-                it.scrollIntoView({ block: 'nearest' });
-            } else {
-                it.classList.remove('focus');
-                it.setAttribute('aria-selected', 'false');
-            }
-        });
-    }
-
-    function handleKeyNavigation(event) {
-        const listDiv = document.getElementById('note-item-list');
-        if (!listDiv) return;
-        const items = listDiv.querySelectorAll('.dropdown-item');
-        if (items.length === 0) return;
-
-        const key = event.key;
-        if (key === 'ArrowDown') {
-            event.preventDefault();
-            currentFocusIndex = (currentFocusIndex + 1) % items.length;
-            updateFocusVisual();
-        } else if (key === 'ArrowUp') {
-            event.preventDefault();
-            currentFocusIndex = (currentFocusIndex - 1 + items.length) % items.length;
-            updateFocusVisual();
-        } else if (key === 'Enter') {
-            event.preventDefault();
-            if (currentFocusIndex >= 0 && currentFocusIndex < items.length) {
-                const selectedItem = items[currentFocusIndex];
-                const idx = Number(selectedItem.dataset.index);
-                const urun = currentItems[idx];
-                if (urun) insertImage(urun);
-            }
-        } else if (key === 'Escape') {
-            event.preventDefault();
-            closeListIfAny();
         }
-    }
 
-    function filterAndRenderList(queryText) {
-        const listDiv = document.getElementById('note-item-list');
-        if (!listDiv) return;
-        const queryRaw = (queryText || '').trim();
-        const qLower = queryRaw.toLowerCase();
-        const filtered = queryRaw
-            ? urunListesi.filter(u => (u.name && u.name.toLowerCase().includes(qLower)))
-            : urunListesi.slice();
-        addListItems(listDiv, filtered, queryRaw);
-    }
-
-    function getBlockAncestor(node, editor) {
-        if (!node) return null;
-        let el = node.nodeType === 3 ? node.parentElement : node;
-        while (el && el !== editor && el.nodeType === 1) {
-            const tag = el.tagName && el.tagName.toLowerCase();
-            if (tag === 'p' || tag === 'div' || tag === 'td' || tag === 'th' || tag === 'li' || tag === 'blockquote' || tag === 'section' || tag === 'article') {
-                return el;
-            }
-            el = el.parentElement;
-        }
-        return editor;
-    }
-
-    function getPreviousTextNode(node) {
-        if (!node) return null;
-        let cur = node;
-        if (cur.previousSibling) {
-            cur = cur.previousSibling;
-            while (cur && cur.lastChild) cur = cur.lastChild;
-            while (cur && cur.nodeType !== 3) {
-                if (cur.previousSibling) {
-                    cur = cur.previousSibling;
-                    while (cur && cur.lastChild) cur = cur.lastChild;
+        function updateFocusVisual() {
+            const listDiv = document.getElementById('note-item-list');
+            if (!listDiv) return;
+            const items = Array.from(listDiv.querySelectorAll('.dropdown-item'));
+            items.forEach((it, i) => {
+                if (i === currentFocusIndex) {
+                    it.classList.add('focus');
+                    it.setAttribute('aria-selected', 'true');
+                    it.scrollIntoView({ block: 'nearest' });
                 } else {
-                    cur = cur.parentNode;
+                    it.classList.remove('focus');
                 }
-            }
-            return cur && cur.nodeType === 3 ? cur : null;
-        } else {
-            let parent = node.parentNode;
-            while (parent && parent !== document) {
-                if (parent.previousSibling) {
-                    let cur2 = parent.previousSibling;
-                    while (cur2 && cur2.lastChild) cur2 = cur2.lastChild;
-                    while (cur2 && cur2.nodeType !== 3) {
-                        if (cur2.previousSibling) {
-                            cur2 = cur2.previousSibling;
-                            while (cur2 && cur2.lastChild) cur2 = cur2.lastChild;
-                        } else {
-                            cur2 = cur2.parentNode;
-                        }
-                    }
-                    return cur2 && cur2.nodeType === 3 ? cur2 : null;
+            });
+        }
+
+        function handleKeyNavigation(event) {
+            const listDiv = document.getElementById('note-item-list');
+            if (!listDiv) return;
+            const items = listDiv.querySelectorAll('.dropdown-item');
+            if (items.length === 0) return;
+
+            if (event.key === 'ArrowDown') {
+                event.preventDefault();
+                currentFocusIndex = (currentFocusIndex + 1) % items.length;
+                updateFocusVisual();
+            } else if (event.key === 'ArrowUp') {
+                event.preventDefault();
+                currentFocusIndex = (currentFocusIndex - 1 + items.length) % items.length;
+                updateFocusVisual();
+            } else if (event.key === 'Enter') {
+                event.preventDefault();
+                if (currentFocusIndex >= 0 && currentFocusIndex < items.length) {
+                    insertImage(currentItems[items[currentFocusIndex].dataset.index]);
                 }
-                parent = parent.parentNode;
-            }
-            return null;
-        }
-    }
-
-    function collectPrecedingTextWithinBlock(range, maxChars = 500) {
-        const editor = document.querySelector('.odoo-editor-editable');
-        if (!editor || !range) return '';
-        const startNode = range.startContainer;
-        const startOffset = range.startOffset;
-
-        const block = getBlockAncestor(startNode, editor);
-        if (!block) return '';
-
-        let collected = '';
-        if (startNode.nodeType === 3) {
-            collected = startNode.textContent.slice(0, startOffset) + collected;
-        } else {
-            const childIndex = Math.max(0, startOffset - 1);
-            const child = startNode.childNodes[childIndex];
-            if (child) {
-                let cur = child;
-                while (cur && cur.lastChild) cur = cur.lastChild;
-                if (cur && cur.nodeType === 3) collected = cur.textContent + collected;
+            } else if (event.key === 'Escape') {
+                event.preventDefault();
+                closeListIfAny();
             }
         }
 
-        let walkerNode = (startNode.nodeType === 3) ? startNode : (startNode.childNodes[startOffset - 1] || null);
-        if (!walkerNode || walkerNode.nodeType !== 3) {
-            if (startNode.nodeType === 3) walkerNode = startNode;
-            else walkerNode = getPreviousTextNode(startNode);
-        } else {
-            walkerNode = getPreviousTextNode(walkerNode);
+        function filterAndRenderList(queryText) {
+            const listDiv = document.getElementById('note-item-list');
+            if (!listDiv) return;
+            const queryRaw = (queryText || '').trim();
+            const qLower = queryRaw.toLowerCase();
+
+            if (ODOO_CONFIG.products.length === 0) fetchProducts();
+
+            const filtered = queryRaw
+                ? ODOO_CONFIG.products.filter(u => (u.name && u.name.toLowerCase().includes(qLower)) || (u.code && u.code.toLowerCase().includes(qLower)))
+                : ODOO_CONFIG.products.slice();
+            addListItems(listDiv, filtered, queryRaw);
         }
 
-        while (walkerNode && collected.length < maxChars) {
-            const walkerBlock = getBlockAncestor(walkerNode, editor);
-            if (walkerBlock !== block) break;
-            collected = walkerNode.textContent + collected;
-            walkerNode = getPreviousTextNode(walkerNode);
+        function getQueryFromSelection(range) {
+            const editor = document.querySelector('.odoo-editor-editable');
+            if (!editor || !range || !range.collapsed) return null;
+            try {
+                const startNode = range.startContainer;
+                const text = startNode.textContent.slice(0, range.startOffset);
+                const m = text.match(/\/\/([^\s]*)$/);
+                return m ? m[1] : null;
+            } catch (e) { return null; }
         }
 
-        if (collected.length > maxChars) {
-            collected = collected.slice(collected.length - maxChars);
-        }
-        return collected;
-    }
+        function insertImage(urun) {
+            const editor = document.querySelector('.odoo-editor-editable');
+            if (!editor) return;
 
-    function getQueryFromSelection(range) {
-        const editor = document.querySelector('.odoo-editor-editable');
-        if (!editor || !range) return null;
-        try {
-            if (!range.collapsed) return null;
-            const preceding = collectPrecedingTextWithinBlock(range, 500);
-            if (!preceding) return null;
-            const m = preceding.match(/\/\/([^\s]*)$/);
-            if (!m) return null;
-            return m[1];
-        } catch (e) {
-            return null;
-        }
-    }
+            const selection = window.getSelection();
+            if (!selection.rangeCount) return;
+            const range = selection.getRangeAt(0);
+            const startNode = range.startContainer;
+            const text = startNode.textContent;
+            const match = text.slice(0, range.startOffset).match(/\/\/([^\s]*)$/);
 
-    function insertImage(urun) {
-        const editor = document.querySelector('.odoo-editor-editable');
-        if (!editor) return;
-
-        const selection = window.getSelection();
-        if (!selection || selection.rangeCount === 0) return;
-        const range = selection.getRangeAt(0);
-
-        const preRange = document.createRange();
-        preRange.setStart(editor, 0);
-        preRange.setEnd(range.startContainer, range.startOffset);
-        const precedingText = preRange.toString();
-        const idx = precedingText.lastIndexOf('//');
-
-        let startNode = null, startOffset = 0;
-        if (idx !== -1) {
-            const walker = document.createTreeWalker(editor, NodeFilter.SHOW_TEXT, null, false);
-            let accum = 0;
-            let node;
-            while ((node = walker.nextNode())) {
-                const ln = node.textContent.length;
-                if (accum + ln > idx) {
-                    startNode = node;
-                    startOffset = idx - accum;
-                    break;
-                }
-                accum += ln;
+            if (match) {
+                const matchLength = match[0].length;
+                const newRange = document.createRange();
+                newRange.setStart(startNode, range.startOffset - matchLength);
+                newRange.setEnd(startNode, range.startOffset);
+                newRange.deleteContents();
             }
-        }
 
-        const delRange = document.createRange();
-        try {
-            if (startNode) {
-                delRange.setStart(startNode, startOffset);
-            } else {
-                const sc = range.startContainer;
-                const offs = Math.max(0, range.startOffset - 2);
-                delRange.setStart(sc, offs);
-            }
-            delRange.setEnd(range.startContainer, range.startOffset);
-            delRange.deleteContents();
-        } catch (e) {
-            console.warn('deleteRange failed', e);
-        }
+            const imageUrl = `${ODOO_CONFIG.url}/web/image?model=product.template&id=${urun.id}&field=image_1920`;
+            const img = document.createElement('img');
+            img.src = imageUrl;
+            img.alt = urun.name;
+            img.style.maxWidth = '100%';
+            img.style.height = 'auto';
 
-        const code = urun.code;
-        const imageUrl = `https://bskhvac.com.tr/product_images/${code}.jpg`;
-        const img = document.createElement('img');
-        img.src = imageUrl;
-        img.alt = urun.name || code;
-        img.style.maxWidth = '100%';
-        img.style.height = 'auto';
-        img.dataset.insertedBy = 'odoo-note-list-script';
-
-        const sel = window.getSelection();
-        if (!sel.rangeCount) return;
-        const insertRange = sel.getRangeAt(0);
-        insertRange.collapse(true);
-        insertRange.insertNode(img);
-
-        const newRange = document.createRange();
-        newRange.setStartAfter(img);
-        newRange.collapse(true);
-        sel.removeAllRanges();
-        sel.addRange(newRange);
-
-        closeListIfAny();
-    }
-
-    function getRectForRange(range) {
-        if (!range) return null;
-        try {
-            const rect = range.getBoundingClientRect();
-            if (rect && (rect.width || rect.height || rect.top || rect.left)) {
-                return rect;
-            }
-        } catch (e) {}
-
-        try {
             const sel = window.getSelection();
-            const savedRanges = [];
-            if (sel) {
-                for (let i = 0; i < sel.rangeCount; i++) savedRanges.push(sel.getRangeAt(i).cloneRange());
+            if (sel.rangeCount) {
+                const insertRange = sel.getRangeAt(0);
+                insertRange.insertNode(img);
+                insertRange.collapse(false);
             }
 
-            const dummy = document.createElement('span');
-            dummy.textContent = '\u200b';
-            dummy.style.fontSize = '0px';
-            dummy.style.lineHeight = '0';
-            range.insertNode(dummy);
+            closeListIfAny();
+        }
 
-            const rect2 = dummy.getBoundingClientRect();
-            const parent = dummy.parentNode;
-            if (parent) parent.removeChild(dummy);
+        function getRectForRange(range) {
+            try {
+                const rect = range.getBoundingClientRect();
+                if (rect && (rect.width || rect.height || rect.top || rect.left)) return rect;
+            } catch (e) {}
 
-            if (sel) {
-                sel.removeAllRanges();
-                for (const r of savedRanges) {
-                    try { sel.addRange(r); } catch (e) { }
-                }
+            const span = document.createElement('span');
+            span.textContent = '\u200b';
+            range.insertNode(span);
+            const rect = span.getBoundingClientRect();
+            span.remove();
+            return rect;
+        }
+
+        function repositionList() {
+            const listDiv = document.getElementById('note-item-list');
+            if (!listDiv || !currentTriggerRange) return;
+            const rect = getRectForRange(currentTriggerRange);
+            if (!rect) { closeListIfAny(); return; }
+            listDiv.style.top = `${Math.round(rect.bottom + 5)}px`;
+            listDiv.style.left = `${Math.round(rect.left)}px`;
+        }
+
+        function rAFLoop() {
+            if (!repositionAttached) return;
+            if (!repositionRaf) {
+                repositionRaf = requestAnimationFrame(() => {
+                    repositionRaf = null;
+                    repositionList();
+                    if (repositionAttached) rAFLoop();
+                });
+            }
+        }
+
+        function createList(positionRect, query, triggerRange) {
+            closeListIfAny();
+            const listDiv = document.createElement('div');
+            listDiv.id = 'note-item-list';
+            listDiv.className = 'o-dropdown--menu dropdown-menu d-block';
+            listDiv.style.cssText = `position:fixed; top:${Math.round(positionRect.bottom + 5)}px; left:${Math.round(positionRect.left)}px; max-height:256px; overflow-y:auto; z-index:10000; min-width:240px;`;
+
+            if (!document.getElementById('note-item-list-style')) {
+                const style = document.createElement('style');
+                style.id = 'note-item-list-style';
+                style.textContent = `#note-item-list .dropdown-item { color: inherit !important; }`;
+                document.head.appendChild(style);
             }
 
-            return rect2;
-        } catch (e) {
-            return null;
-        }
-    }
+            document.body.appendChild(listDiv);
 
-    // --- Yeni: listeyi caret ile birlikte hareket ettiren fonksiyonlar ---
-    function repositionList() {
-        const listDiv = document.getElementById('note-item-list');
-        if (!listDiv) {
-            lastPosition.top = lastPosition.left = null;
-            return;
-        }
-        if (!currentTriggerRange) return;
-        const rect = getRectForRange(currentTriggerRange);
-        if (!rect) {
-            closeListIfAny();
-            return;
-        }
-        // position: fixed kullanıyoruz => viewport'a göre rect değerlerini direkt kullanabiliriz
-        const topPos = Math.round(rect.bottom + 5);
-        const leftPos = Math.round(rect.left);
-        if (String(listDiv.style.top) !== `${topPos}px` || String(listDiv.style.left) !== `${leftPos}px`) {
-            listDiv.style.top = `${topPos}px`;
-            listDiv.style.left = `${leftPos}px`;
-        }
-    }
+            setTimeout(() => {
+                const clickHandler = (ev) => {
+                    if (!listDiv.contains(ev.target)) {
+                        closeListIfAny();
+                        document.removeEventListener('click', clickHandler);
+                    }
+                };
+                document.addEventListener('click', clickHandler);
+            }, 50);
 
-    function rAFLoop() {
-        if (!repositionAttached) return;
-        if (repositionRaf) return;
-        repositionRaf = requestAnimationFrame(() => {
-            repositionRaf = null;
-            try { repositionList(); } catch (e) { /* ignore */ }
-            // devam ettir
-            if (repositionAttached) rAFLoop();
-        });
-    }
+            filterAndRenderList(query);
 
-    function startRepositioning() {
-        if (repositionAttached) return;
-        repositionAttached = true;
-        rAFLoop();
-        window.addEventListener('resize', onWindowResize);
-    }
-
-    function stopRepositioning() {
-        repositionAttached = false;
-        if (repositionRaf) { cancelAnimationFrame(repositionRaf); repositionRaf = null; }
-        window.removeEventListener('resize', onWindowResize);
-        lastPosition.top = lastPosition.left = null;
-        currentTriggerRange = null;
-    }
-
-    function onWindowResize() {
-        if (!repositionAttached) return;
-        if (repositionRaf) return;
-        repositionRaf = requestAnimationFrame(() => {
-            repositionRaf = null;
-            repositionList();
-        });
-    }
-    // -----------------------------------------------------------------
-
-    function createList(positionRect, noteElement, initialQuery, triggerRange) {
-        closeListIfAny();
-
-        const listDiv = document.createElement('div');
-        listDiv.id = 'note-item-list';
-        listDiv.setAttribute('role', 'menu');
-        listDiv.classList.add('o-dropdown--menu', 'dropdown-menu', 'd-block');
-
-        // artık fixed konumlandırma (viewport'a göre) kullanıyoruz
-        listDiv.style.position = 'fixed';
-        if (positionRect) {
-            const topPos = Math.round(positionRect.bottom + 5);
-            const leftPos = Math.round(positionRect.left);
-            listDiv.style.top = `${topPos}px`;
-            listDiv.style.left = `${leftPos}px`;
-        } else {
-            listDiv.style.top = `50px`;
-            listDiv.style.left = `50px`;
-        }
-
-        listDiv.style.maxHeight = '256px';
-        listDiv.style.overflowY = 'auto';
-        listDiv.style.zIndex = 10000;
-        listDiv.style.minWidth = '240px';
-
-        if (!document.getElementById('note-item-list-style')) {
-            const style = document.createElement('style');
-            style.id = 'note-item-list-style';
-            style.textContent = `#note-item-list .dropdown-item { color: inherit !important; }`;
-            document.head.appendChild(style);
-        }
-
-        document.body.appendChild(listDiv);
-
-        setTimeout(() => {
-            function onDocClick(ev) {
-                if (!listDiv.contains(ev.target) && (!noteElement || !noteElement.contains(ev.target))) {
-                    closeListIfAny();
-                    document.removeEventListener('click', onDocClick);
-                }
+            if (triggerRange) {
+                try { currentTriggerRange = triggerRange.cloneRange(); } catch(e){ currentTriggerRange = triggerRange; }
+                repositionAttached = true;
+                rAFLoop();
+                window.addEventListener('resize', repositionList);
             }
-            document.addEventListener('click', onDocClick);
-        }, 50);
-
-        const initialQueryTrimmed = (initialQuery || '').trim();
-        const initial = initialQueryTrimmed
-            ? urunListesi.filter(u => (u.name && u.name.toLowerCase().includes(initialQueryTrimmed.toLowerCase())))
-            : urunListesi.slice();
-        addListItems(listDiv, initial, initialQueryTrimmed);
-
-        // caret'in (seçim) pozisyonunu sakla ve pozisyon güncellemesini başlat
-        if (triggerRange) {
-            try { currentTriggerRange = triggerRange.cloneRange ? triggerRange.cloneRange() : triggerRange; } catch(e){ currentTriggerRange = triggerRange; }
-            startRepositioning();
         }
 
-        return listDiv;
-    }
-
-    function closeListIfAny() {
-        const existing = document.getElementById('note-item-list');
-        if (existing) existing.remove();
-        stopRepositioning();
-    }
-
-    function updateListFromSelection(noteElement) {
-        const sel = window.getSelection();
-        if (!sel || sel.rangeCount === 0) {
-            closeListIfAny();
-            return;
-        }
-        const range = sel.getRangeAt(0);
-
-        if (!range.collapsed) {
-            closeListIfAny();
-            return;
+        function closeListIfAny() {
+            const el = document.getElementById('note-item-list');
+            if (el) el.remove();
+            repositionAttached = false;
+            if (repositionRaf) { cancelAnimationFrame(repositionRaf); repositionRaf = null; }
+            window.removeEventListener('resize', repositionList);
         }
 
-        const query = getQueryFromSelection(range);
-        if (query !== null) {
-            const rect = getRectForRange(range);
-            if (!rect) {
+        function updateListFromSelection(noteElement) {
+            const sel = window.getSelection();
+            if (!sel || !sel.rangeCount || !sel.getRangeAt(0).collapsed) {
                 closeListIfAny();
                 return;
             }
-            let listDiv = document.getElementById('note-item-list');
-            if (!listDiv) {
-                // create and pass the current range so we can keep track and reposition on scroll
-                listDiv = createList(rect, noteElement, query, range.cloneRange ? range.cloneRange() : range);
+
+            const range = sel.getRangeAt(0);
+            const query = getQueryFromSelection(range);
+
+            if (query !== null) {
+                const rect = getRectForRange(range);
+                if (!rect) return;
+
+                let listDiv = document.getElementById('note-item-list');
+                if (!listDiv) {
+                    createList(rect, query, range);
+                } else {
+                    try { currentTriggerRange = range.cloneRange(); } catch(e){}
+                    listDiv.style.top = `${Math.round(rect.bottom + 5)}px`;
+                    listDiv.style.left = `${Math.round(rect.left)}px`;
+                    filterAndRenderList(query);
+                }
             } else {
-                // liste zaten açıksa caret range'ini güncelle ve pozisyonu hemen ayarla
-                try { currentTriggerRange = range.cloneRange ? range.cloneRange() : range; } catch(e){ currentTriggerRange = range; }
-                // fixed pozisyon kullandığımız için scroll offset eklemiyoruz; sadece bounding rect kullanıyoruz
-                const topPos = Math.round(rect.bottom + 5);
-                const leftPos = Math.round(rect.left);
-                listDiv.style.top = `${topPos}px`;
-                listDiv.style.left = `${leftPos}px`;
+                closeListIfAny();
             }
-            filterAndRenderList(query);
-        } else {
-            closeListIfAny();
         }
-    }
 
-    function getActiveEditorFromSelection() {
-        const sel = window.getSelection();
-        if (!sel || !sel.anchorNode) return null;
-        let node = sel.anchorNode.nodeType === Node.TEXT_NODE ? sel.anchorNode.parentNode : sel.anchorNode;
-        if (!node) return null;
-        if (node.closest) {
-            return node.closest('.odoo-editor-editable');
-        } else {
-            while (node && node !== document.body) {
-                if (node.classList && node.classList.contains && node.classList.contains('odoo-editor-editable')) return node;
-                node = node.parentNode;
-            }
-            return null;
+        function initScriptForEditor(noteElement) {
+            if (!noteElement || noteElement.dataset.imgScriptInit) return;
+            noteElement.dataset.imgScriptInit = 'true';
+            noteElement.addEventListener('input', () => updateListFromSelection(noteElement));
+            noteElement.addEventListener('keydown', (e) => {
+                 if (e.key === 'Backspace' || e.key === 'Delete') setTimeout(() => updateListFromSelection(noteElement), 0);
+            });
         }
-    }
-
-    function initScriptForEditor(noteElement) {
-        if (!noteElement || noteElement.dataset.scriptInitialized) return;
-        noteElement.dataset.scriptInitialized = 'true';
-
-        noteElement.addEventListener('input', () => {
-            updateListFromSelection(noteElement);
-        });
-
-        noteElement.addEventListener('keydown', (e) => {
-            if (e.key === 'Backspace' || e.key === 'Delete') {
-                setTimeout(() => updateListFromSelection(noteElement), 0);
-            }
-        });
 
         document.addEventListener('keydown', (event) => {
-            const listDiv = document.getElementById('note-item-list');
-            if (listDiv && ['ArrowUp', 'ArrowDown', 'Enter', 'Escape'].includes(event.key)) {
+            if (document.getElementById('note-item-list') && ['ArrowUp', 'ArrowDown', 'Enter', 'Escape'].includes(event.key)) {
                 handleKeyNavigation(event);
             }
         }, true);
 
-        if (!selectionChangeAttached) {
-            selectionChangeAttached = true;
-            document.addEventListener('selectionchange', () => {
-                const activeEditor = getActiveEditorFromSelection();
-                if (activeEditor && activeEditor.dataset.scriptInitialized) {
-                    setTimeout(() => updateListFromSelection(activeEditor), 0);
-                } else {
-                    closeListIfAny();
-                }
-            });
-        }
+        document.addEventListener('selectionchange', () => {
+            const sel = window.getSelection();
+            const node = sel ? sel.anchorNode : null;
+            const editor = node && node.nodeType === 3 ? node.parentElement.closest('.odoo-editor-editable') : (node ? node.closest('.odoo-editor-editable') : null);
+
+            if (editor && editor.dataset.imgScriptInit) setTimeout(() => updateListFromSelection(editor), 0);
+            else closeListIfAny();
+        });
+
+        const observer = new MutationObserver(() => {
+            const el = document.querySelector('.odoo-editor-editable');
+            if (el) initScriptForEditor(el);
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+
+        fetchProducts();
     }
 
-    const observer = new MutationObserver(() => {
-        const noteElement = document.querySelector('.odoo-editor-editable');
-        if (noteElement) initScriptForEditor(noteElement);
-    });
-
-    observer.observe(document.body, { childList: true, subtree: true });
-
-    const initialEditor = document.querySelector('.odoo-editor-editable');
-    if (initialEditor) initScriptForEditor(initialEditor);
-
+    init();
 })();
-
